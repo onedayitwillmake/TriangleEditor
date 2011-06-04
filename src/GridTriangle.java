@@ -74,24 +74,25 @@ public class GridTriangle {
 		rotate();
 	}
 	
-	float theta = 0;
+	float theta = 180*PApplet.DEG_TO_RAD;
 	public void rotate() {
-		theta += 0.1f;
-		
+
 		PVector[] allPoints = {A,B,C};
+		PVector o = centroid;
+		double d = 90;
 		for(int i = 0; i < 3; i++) {
-			PVector point = new PVector(allPoints[i].x, allPoints[i].y);
-			point.normalize();
-			float co = (float) Math.cos(theta);
-	        float si = (float) Math.sin(theta);
-	        float xx = co * point.x - si * point.y;
-	        point.y = si * point.x + co * point.y;
-	        point.x = xx;
+			PVector p = new PVector(allPoints[i].x, allPoints[i].y);
+			PVector np = new PVector(0,0);
+			p.x += (0 - o.x);
+			p.y += (0 - o.y);
+			np.x = (float) ((p.x * Math.cos(d * (Math.PI/180.0f))) - (p.y * Math.sin(d * (Math.PI/180.0f))));
+			np.y = (float) (Math.sin(d * (Math.PI/180)) * p.x + Math.cos(d * (Math.PI/180)) * p.y);
+			np.x += (0 + o.x);
+			np.y += (0 + o.y);
 	        
-	        point = PVector.add(point, allPoints[i]);
-	        if(i == 0) A = point;
-	        else if(i == 1) B = point;
-	        else C = point;
+	        if(i == 0) A = np;
+	        else if(i == 1) B = np;
+	        else C = np;
 //	        allPoints[i] = point;//PVector.mult(point);
 		}
 	}
