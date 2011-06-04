@@ -17,7 +17,7 @@ public class MyProcessingSketch extends PApplet {
 	}
 	
 	public void setupGrid() {
-		_gridModel = new GridModel(width, height, 25, this);
+		_gridModel = new GridModel(width, height, 200, this);
 	}
 	
 	public void draw() {

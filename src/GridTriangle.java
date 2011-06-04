@@ -68,9 +68,34 @@ public class GridTriangle {
 			app.fill( 255 );
 			app.ellipseMode(PApplet.CENTER);
 			app.ellipse(centroid.x, centroid.y, 2, 2);
+			
+		}
+		
+		rotate();
+	}
+	
+	float theta = 0;
+	public void rotate() {
+		theta += 0.1f;
+		
+		PVector[] allPoints = {A,B,C};
+		for(int i = 0; i < 3; i++) {
+			PVector point = new PVector(allPoints[i].x, allPoints[i].y);
+			point.normalize();
+			float co = (float) Math.cos(theta);
+	        float si = (float) Math.sin(theta);
+	        float xx = co * point.x - si * point.y;
+	        point.y = si * point.x + co * point.y;
+	        point.x = xx;
+	        
+	        point = PVector.add(point, allPoints[i]);
+	        if(i == 0) A = point;
+	        else if(i == 1) B = point;
+	        else C = point;
+//	        allPoints[i] = point;//PVector.mult(point);
 		}
 	}
-
+	
 	public Boolean get_isActive() {
 		return _isActive;
 	}
