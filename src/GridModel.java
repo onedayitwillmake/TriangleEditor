@@ -1,20 +1,27 @@
 import java.util.ArrayList;
 
+import processing.core.PApplet;
+
 /**
  * Model that contains a 2 column array of GridSquares
  * @author onedayitwillmake
  *
  */
 public class GridModel {
-	GridSquare[][]			_gridSquares;
-	ArrayList<GridSquare>	_gridSquareList;
+	private GridSquare[][]			_gridSquares;
+	private ArrayList<GridSquare>	_gridSquareList;
 	
-	int					_squareSize;
-	int                 _gridColumnCount;
-	int					_gridRowCount;
+	private int					_squareSize;
+	private int                 _gridColumnCount;
+	private int					_gridRowCount;
+	
+	// Reference to Processing
+	private PApplet app;
 
-	public GridModel( int width, int height, int squareSize ) {
 
+	public GridModel( int width, int height, int squareSize, PApplet app ) {
+
+		this.app = app;
 		_squareSize = squareSize;
 		
 		// Determin column / row count - based on width/height of sketch relative to "boxWidth"
@@ -29,7 +36,6 @@ public class GridModel {
 	/**
 	 * Creates a square for each row/column
 	 * Assumes _gridColumnCount/_gridRowCount properties are set
-	 * @return
 	 */
 	public void setupSquares() {
 	  	int iterator = 0;
@@ -37,22 +43,24 @@ public class GridModel {
 		{
 			for(int j = 0; j < _gridRowCount; j++)
 			{  
-			 	_gridSquares[i][j] = new GridSquare( i *_squareSize, j *_squareSize, i, j, (int)_squareSize, MyProcessingSketch.APPLET);;
+			 	_gridSquares[i][j] = new GridSquare( i *_squareSize, j *_squareSize, i, j, (int)_squareSize, app);
 			 	_gridSquareList.add( _gridSquares[i][j] );
 		  		++iterator;
 			}
 		}
 	}
 	
-	public void getSquareAtPosition( int xpos, int ypos ) {	
-		 // Determin which square the click is on
-	    int row = MyProcessingSketch.APPLET.floor( xpos / _squareSize) ;
-	    int column = MyProcessingSketch.APPLET.floor( ypos / _squareSize);
-	    // Store in pvector
-//	    _gridPosition = new PVector(myRow, myColumn);
+	/**
+	 * Returns the square that at position
+	 * @param xpos
+	 * @param ypos
+	 * @return
+	 */
+	public GridSquare getSquareAtPosition( int xpos, int ypos ) {
+	    int row = PApplet.floor( xpos / _squareSize) ;
+	    int column = PApplet.floor( ypos / _squareSize);
 	    
-	    // Retrieve the grid square at our grid position
-//	    GridSquareAgent originatingSquare = 
+	    return _gridSquares[row][column];
 	}
 	
 	public ArrayList<GridSquare> get_gridSquareList() {
