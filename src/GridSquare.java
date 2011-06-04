@@ -14,6 +14,7 @@ public class GridSquare {
 	public PVector			_position;
 	public PVector 			_gridPosition;
 	public int				_size;
+	public PVector			_center;
 	
 	// Square is made up of two triangles
 	GridTriangle			_triangleA;
@@ -27,14 +28,14 @@ public class GridSquare {
 	private PApplet			app;
 	
 	public GridSquare(float xpos, float ypos, int row, int column, int size, PApplet appRef) {
+		app = appRef;
 		_position = new PVector(xpos, ypos);
 		_gridPosition = new PVector(row, column);
 		_size = size;
+		_center = new PVector(_position.x + _size/2, _position.y + _size/2);
+		__color = (int)appRef.random(255);
 		
-		app = appRef;
 		setupTriangles();
-		__color = 255;
-//		_color = new Color3b(255, 255, 255);
 	}
 	
 	private void setupTriangles() {
@@ -52,7 +53,7 @@ public class GridSquare {
 		C.x = _position.x;
 		C.y = _position.y;
 			
-		_triangleA = new GridTriangle(A, B, C, app);
+		_triangleA = new GridTriangle(A, B, C, _center, app);
 		
 		// Triangle B
 		// 
@@ -68,19 +69,19 @@ public class GridSquare {
 		C1.x = _position.x;
 		C1.y = _position.y;
 			
-		_triangleB = new GridTriangle(A1, B1, C1, app);
+		_triangleB = new GridTriangle(A1, B1, C1, _center, app);
 	}
 	
 	public void draw()
 	{
-		app.fill( app.random(250, 255) );
+		app.fill( 255 );
         app.rect(_position.x, _position.y, _size, _size);
         
 		// Set color based on value - our values start at zero, so we say (white) - value = color
 		app.fill( __color );
 		_triangleA.draw();
 		
-		app.fill( __color );
+		app.fill( __color*0.9f );
 		_triangleB.draw();
 	}
 
@@ -94,7 +95,7 @@ public class GridSquare {
 		Boolean isInTriangleA = _triangleA.containsPoint(mouseX, mouseY);
 		Boolean isInTriangleB = _triangleB.containsPoint(mouseX, mouseY);
 		
-		PApplet.print("ContainsPoint: A:" + isInTriangleA + " B: " + isInTriangleB );
+		PApplet.print("ContainsPoint: A:" + isInTriangleA + " B: " + isInTriangleB + "\n" );
 
 		if(isInTriangleA) return _triangleA;
 		else if(isInTriangleB) return _triangleB;

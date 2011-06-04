@@ -60,6 +60,11 @@ public class GridModel {
 	    int row = PApplet.floor( xpos / _squareSize) ;
 	    int column = PApplet.floor( ypos / _squareSize);
 	    
+	    // TODO: Row and Column are swapped
+	    // Out of bounds 
+	    if(row < 0 || column < 0 || row >= _gridColumnCount || column >= _gridRowCount ) 
+	    	return null;
+	    
 	    return _gridSquares[row][column];
 	}
 	

@@ -11,13 +11,14 @@ public class GridTriangle {
 	public PVector	B;
 	public PVector	C;
 	public PVector	centroid;
+	public PVector	origin;
 	
 	private Boolean	_isActive;
 	
 	
 	private PApplet	app;
 	
-	public GridTriangle( PVector a, PVector b, PVector c, PApplet appRef) {
+	public GridTriangle( PVector a, PVector b, PVector c, PVector originPoint, PApplet appRef) {
 		A = a;
 		B = b;
 		C = c;
@@ -25,13 +26,11 @@ public class GridTriangle {
 		_isActive = false;
 		
 		
-		computeCentroid();
-	}
-	
-	private void computeCentroid() {
-		centroid = new PVector();
-		centroid.x = (A.x + B.x + C.x) / 3.0f;
-		centroid.y = (A.y + B.y + C.y) / 3.0f;
+		origin = originPoint;
+		//
+		
+		float rotation = app.random(360);
+		rotate( Math.round(rotation / 90) * 90);
 	}
 	
 	/**
@@ -70,31 +69,40 @@ public class GridTriangle {
 			app.ellipse(centroid.x, centroid.y, 2, 2);
 			
 		}
-		
-		rotate();
 	}
 	
-	float theta = 180*PApplet.DEG_TO_RAD;
-	public void rotate() {
-
+	/**
+	 * Rotates the triangle about it's origin by angle
+	 * @param angle	Angle in degrees for rotation, from current rotation. e.g. 90+90 will equal 180 degrees rotation
+	 */
+	public void rotate( float angle ) {
 		PVector[] allPoints = {A,B,C};
-		PVector o = centroid;
-		double d = 90;
+		PVector o = origin;
+		angle *= PApplet.DEG_TO_RAD;
+		
 		for(int i = 0; i < 3; i++) {
 			PVector p = new PVector(allPoints[i].x, allPoints[i].y);
 			PVector np = new PVector(0,0);
 			p.x += (0 - o.x);
 			p.y += (0 - o.y);
-			np.x = (float) ((p.x * Math.cos(d * (Math.PI/180.0f))) - (p.y * Math.sin(d * (Math.PI/180.0f))));
-			np.y = (float) (Math.sin(d * (Math.PI/180)) * p.x + Math.cos(d * (Math.PI/180)) * p.y);
+			np.x = (float) ((p.x * Math.cos(angle)) - (p.y * Math.sin(angle)));
+			np.y = (float) (Math.sin(angle) * p.x + Math.cos(angle) * p.y);
 			np.x += (0 + o.x);
 			np.y += (0 + o.y);
 	        
-	        if(i == 0) A = np;
-	        else if(i == 1) B = np;
-	        else C = np;
-//	        allPoints[i] = point;//PVector.mult(point);
+			allPoints[i].set(np);
 		}
+		
+		computeCentroid();
+	}
+	
+	/**
+	 * Calculates the centroid of this triangle
+	 */
+	private void computeCentroid() {
+		centroid = new PVector();
+		centroid.x = (A.x + B.x + C.x) / 3.0f;
+		centroid.y = (A.y + B.y + C.y) / 3.0f;
 	}
 	
 	public Boolean get_isActive() {

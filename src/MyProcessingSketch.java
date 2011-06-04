@@ -17,7 +17,7 @@ public class MyProcessingSketch extends PApplet {
 	}
 	
 	public void setupGrid() {
-		_gridModel = new GridModel(width, height, 20, this);
+		_gridModel = new GridModel(width, height, 50, this);
 	}
 	
 	public void draw() {
@@ -44,14 +44,7 @@ public class MyProcessingSketch extends PApplet {
 	@Override
 	public void mouseDragged() {
 		super.mouseDragged();
-		
-		GridSquare square = _gridModel.getSquareAtPosition( mouseX, mouseY );
-		square.__color = 128;
-		
-		GridTriangle selectedTriangle = square.getTriangle( mouseX, mouseY );
-		if(selectedTriangle != null) {
-			selectedTriangle.set_isActive( true );
-		}
+		handleSquares();
 	}
 
 	/* (non-Javadoc)
@@ -69,13 +62,33 @@ public class MyProcessingSketch extends PApplet {
 	public void mousePressed() {
 		super.mousePressed();
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see processing.core.PApplet#mouseReleased()
 	 */
 	@Override
 	public void mouseReleased() {
 		super.mouseReleased();
+		handleSquares();
+	}
+	
+	private void handleSquares(){
+		GridSquare square = _gridModel.getSquareAtPosition( mouseX, mouseY );
+		if( square == null )
+			return;
+		
+		square.__color = 128;
+		
+		GridTriangle selectedTriangle = square.getTriangle( mouseX, mouseY );
+		if(selectedTriangle != null) 
+		{	
+			// Already was active - rotate
+			if(selectedTriangle.get_isActive()) {
+				selectedTriangle.rotate(90);
+			}
+			
+			selectedTriangle.set_isActive( true );
+		}
 	}
 
 	//
