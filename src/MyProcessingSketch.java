@@ -17,18 +17,15 @@ public class MyProcessingSketch extends PApplet {
 	}
 	
 	public void setupGrid() {
-		_gridModel = new GridModel(width, height, 50, this);
+		_gridModel = new GridModel(width, height, 25, this);
 	}
 	
 	public void draw() {
 		++_elapsedFrames;
-//		stroke(255);
-		if(mousePressed) {
-			line(mouseX,mouseY,pmouseX,pmouseY);
-		}
-		
+		noStroke();
 		drawGrid();
 	}
+	
 	
 	/**
 	 * Calls draw on all GridSquares
@@ -46,8 +43,15 @@ public class MyProcessingSketch extends PApplet {
 	 */
 	@Override
 	public void mouseDragged() {
-		// TODO Auto-generated method stub
 		super.mouseDragged();
+		
+		GridSquare square = _gridModel.getSquareAtPosition( mouseX, mouseY );
+		square.__color = 128;
+		
+		GridTriangle selectedTriangle = square.getTriangle( mouseX, mouseY );
+		if(selectedTriangle != null) {
+			selectedTriangle.set_isActive( true );
+		}
 	}
 
 	/* (non-Javadoc)
@@ -55,7 +59,6 @@ public class MyProcessingSketch extends PApplet {
 	 */
 	@Override
 	public void mouseMoved() {
-		// TODO Auto-generated method stub
 		super.mouseMoved();
 	}
 
@@ -64,7 +67,6 @@ public class MyProcessingSketch extends PApplet {
 	 */
 	@Override
 	public void mousePressed() {
-		// TODO Auto-generated method stub
 		super.mousePressed();
 	}
 
@@ -74,10 +76,6 @@ public class MyProcessingSketch extends PApplet {
 	@Override
 	public void mouseReleased() {
 		super.mouseReleased();
-		
-		GridSquare square = _gridModel.getSquareAtPosition( mouseX, mouseY );
-		square.getTriangle( mouseX, mouseY );
-		square.__color = 128;
 	}
 
 	//

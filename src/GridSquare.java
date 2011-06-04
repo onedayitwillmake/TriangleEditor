@@ -73,6 +73,9 @@ public class GridSquare {
 	
 	public void draw()
 	{
+		app.fill( app.random(250, 255) );
+        app.rect(_position.x, _position.y, _size, _size);
+        
 		// Set color based on value - our values start at zero, so we say (white) - value = color
 		app.fill( __color );
 		_triangleA.draw();
@@ -92,7 +95,7 @@ public class GridSquare {
 		Boolean isInTriangleB = _triangleB.containsPoint(mouseX, mouseY);
 		
 		PApplet.print("ContainsPoint: A:" + isInTriangleA + " B: " + isInTriangleB );
-		
+
 		if(isInTriangleA) return _triangleA;
 		else if(isInTriangleB) return _triangleB;
 		else return null;

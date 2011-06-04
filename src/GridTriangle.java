@@ -22,7 +22,7 @@ public class GridTriangle {
 		B = b;
 		C = c;
 		app = appRef;
-		_isActive = true;
+		_isActive = false;
 		
 		
 		computeCentroid();
