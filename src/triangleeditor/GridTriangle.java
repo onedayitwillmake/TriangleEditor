@@ -109,8 +109,13 @@ public class GridTriangle {
 	}
 	
 	public PVector[] getPoints( Boolean clockWise ) {
-		PVector[] allPoints = {A,B,C};
-		return allPoints;
+		if(C.x < A.x) {
+			PVector[] CBA = {C,B,A};
+			return CBA;
+		} else {
+			PVector[] ABC = {A,B,C};
+			return ABC;
+		}
 	}
 	
 	/**

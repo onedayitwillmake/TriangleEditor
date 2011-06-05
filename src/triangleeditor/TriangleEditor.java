@@ -109,6 +109,7 @@ public class TriangleEditor extends PApplet {
 		
 		if(triangle.get_body() == null ) {
 			PVector[] trianglePoints = triangle.getPoints( true );
+			_physicsController.m_density = 0;
 			Body triangleBody = _physicsController.createPolygon(trianglePoints[0].x, trianglePoints[0].y, 
 					trianglePoints[1].x, trianglePoints[1].y,
 					trianglePoints[2].x, trianglePoints[2].y);
