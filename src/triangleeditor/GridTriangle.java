@@ -1,4 +1,6 @@
 package triangleeditor;
+import org.jbox2d.dynamics.Body;
+
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -15,6 +17,7 @@ public class GridTriangle {
 	public PVector	origin;
 	
 	private Boolean	_isActive;
+	private Body	_body;
 	
 	
 	private PApplet	app;
@@ -105,13 +108,23 @@ public class GridTriangle {
 		centroid.y = (A.y + B.y + C.y) / 3.0f;
 	}
 	
-	public Boolean get_isActive() {
-		return _isActive;
-	}
-
-	public void set_isActive(Boolean _isActive) {
-		this._isActive = _isActive;
+	public PVector[] getPoints( Boolean clockWise ) {
+		PVector[] allPoints = {A,B,C};
+		return allPoints;
 	}
 	
+	/**
+	 * If a triangle is active that means it has been clicked, but that will mean something else later
+	 * @return
+	 */
+	public Boolean get_isActive() { return _isActive; }
+	public void set_isActive(Boolean _isActive) { this._isActive = _isActive; }
+
+	/**
+	 * Get/Set the Box2D body
+	 * @return
+	 */
+	public Body get_body() { return _body; }
+	public void set_body(Body _body) {this._body = _body; }	
 	
 }
