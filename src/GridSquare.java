@@ -22,7 +22,7 @@ public class GridSquare {
 	
 	// Color
 	public Color3b			_color;
-	public int				__color;
+	public int				 __color;
 	
 	// Reference to Processing
 	private PApplet			app;
@@ -74,14 +74,13 @@ public class GridSquare {
 	
 	public void draw()
 	{
-		app.fill( 255 );
-        app.rect(_position.x, _position.y, _size, _size);
+
         
 		// Set color based on value - our values start at zero, so we say (white) - value = color
 		app.fill( __color );
 		_triangleA.draw();
 		
-		app.fill( __color*0.9f );
+		app.fill( __color );
 		_triangleB.draw();
 	}
 
@@ -95,7 +94,8 @@ public class GridSquare {
 		Boolean isInTriangleA = _triangleA.containsPoint(mouseX, mouseY);
 		Boolean isInTriangleB = _triangleB.containsPoint(mouseX, mouseY);
 		
-		PApplet.print("ContainsPoint: A:" + isInTriangleA + " B: " + isInTriangleB + "\n" );
+//		PApplet.print("ContainsPoint: A:" + isInTriangleA + " B: " + isInTriangleB + "\n" );
+		PApplet.print( __color );
 
 		if(isInTriangleA) return _triangleA;
 		else if(isInTriangleB) return _triangleB;

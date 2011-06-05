@@ -27,10 +27,7 @@ public class GridTriangle {
 		
 		
 		origin = originPoint;
-		//
-		
-		float rotation = app.random(360);
-		rotate( Math.round(rotation / 90) * 90);
+		computeCentroid();
 	}
 	
 	/**

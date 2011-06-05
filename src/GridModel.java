@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 /**
  * Model that contains a 2 column array of GridSquares
@@ -15,12 +16,18 @@ public class GridModel {
 	private int                 _gridColumnCount;
 	private int					_gridRowCount;
 	
+	public PImage b;
+	
+	
 	// Reference to Processing
 	private PApplet app;
 
 
 	public GridModel( int width, int height, int squareSize, PApplet app ) {
 
+		b = app.loadImage("images/tree.png");
+		
+		
 		this.app = app;
 		_squareSize = squareSize;
 		
@@ -45,6 +52,8 @@ public class GridModel {
 			{  
 			 	_gridSquares[i][j] = new GridSquare( i *_squareSize, j *_squareSize, i, j, (int)_squareSize, app);
 			 	_gridSquareList.add( _gridSquares[i][j] );
+			 	
+			 	_gridSquares[i][j].__color = b.get((int)(i *_squareSize + _squareSize*0.5f), (int)(j *_squareSize + _squareSize * 0.5f) );
 		  		++iterator;
 			}
 		}

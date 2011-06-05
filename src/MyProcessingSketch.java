@@ -17,13 +17,18 @@ public class MyProcessingSketch extends PApplet {
 	}
 	
 	public void setupGrid() {
-		_gridModel = new GridModel(width, height, 50, this);
+		_gridModel = new GridModel(width, height, 200, this);
 	}
 	
 	public void draw() {
 		++_elapsedFrames;
+		fill( 255 );
+        rect(0,0, width, height);
+        
 		noStroke();
 		drawGrid();
+		
+		
 	}
 	
 	
@@ -77,7 +82,7 @@ public class MyProcessingSketch extends PApplet {
 		if( square == null )
 			return;
 		
-		square.__color = 128;
+//		square.__color = 128;
 		
 		GridTriangle selectedTriangle = square.getTriangle( mouseX, mouseY );
 		if(selectedTriangle != null) 
