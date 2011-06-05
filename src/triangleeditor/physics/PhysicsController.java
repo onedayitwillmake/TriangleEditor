@@ -63,7 +63,6 @@ public class PhysicsController {
 		_world.setDebugDraw( _debugDraw );
 		_world.setDrawDebugData(false);
 		
-		setupWorldBoundary();
 //		app.registerDraw(this);
 	}
 	

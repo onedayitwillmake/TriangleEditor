@@ -1,5 +1,8 @@
 package triangleeditor;
 
+import java.util.ArrayList;
+
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
 import processing.core.*;
@@ -10,6 +13,7 @@ public class TriangleEditor extends PApplet {
 	float				_elapsedFrames;
 	GridModel			_gridModel;
 	PhysicsController	_physicsController;
+	ArrayList<Body>		_circles = new ArrayList<Body>();
 	
 	public void setup() {
 		_elapsedFrames = 0;
@@ -17,6 +21,7 @@ public class TriangleEditor extends PApplet {
 		size(1200, 600, P3D);
 		frameRate(60);
 		background(0);
+		
 		setupGrid();
 		setupPhysicsController();
 	}
@@ -28,14 +33,17 @@ public class TriangleEditor extends PApplet {
 	public void setupPhysicsController() {
 		_physicsController = new PhysicsController( this );
 		_physicsController.createWorld(width, height, 0, 20, width*2, height*2, width, height, 20);
+//		_physicsController.createHollowBox(width * 0.5f, height*.5f, width, height, 10.0f);
 		
 		_physicsController.m_density = 1;
 		_physicsController.m_restitution = 0.5f;
-//		for( int i = 0; i < 500; ++i ) {
-//			_physicsController.createCircle(random(width), 10, random(5, 20));
-//		}
+		for( int i = 0; i < 500; ++i ) {
+			Body circle = _physicsController.createCircle(random(width), 10, random(5, 20));
+			_circles.add( circle );
+		}
 	}
 	
+	@SuppressWarnings("unused")
 	public void draw() {
 		++_elapsedFrames;
 		background( 255 );
@@ -44,6 +52,16 @@ public class TriangleEditor extends PApplet {
 		
 		_physicsController.update();
 		_physicsController.draw();
+		
+		// Reset circles
+		for( Body body : _circles ) {
+			Vec2 pos = _physicsController.worldToScreen( body.getPosition() );
+			if( pos.y > height ) {
+				Vec2 randomPosition = _physicsController.screenToWorld( random(width), 0);
+				body.setXForm( randomPosition, 0);
+				body.setLinearVelocity( new Vec2(0.0f, 0.0f) );
+			}
+		}
 	}
 	
 	
@@ -102,7 +120,7 @@ public class TriangleEditor extends PApplet {
 		
 		// Already was active - rotate
 		if(triangle.get_isActive()) {
-			triangle.rotate(90);
+//			triangle.rotate(90);
 		}
 		
 		triangle.set_isActive( true );
