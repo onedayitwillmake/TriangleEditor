@@ -3,7 +3,7 @@ import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion.Static;
 import processing.core.*;
 
 
-public class MyProcessingSketch extends PApplet {
+public class TriangleEditor extends PApplet {
 	float				_elapsedFrames;
 	GridModel			_gridModel;
 	
@@ -17,7 +17,7 @@ public class MyProcessingSketch extends PApplet {
 	}
 	
 	public void setupGrid() {
-		_gridModel = new GridModel(width, height, 200, this);
+		_gridModel = new GridModel(width, height, 50, this);
 	}
 	
 	public void draw() {
@@ -98,6 +98,6 @@ public class MyProcessingSketch extends PApplet {
 
 	//
 	public static void main(String args[]) {
-		PApplet.main(new String[] { "--present", "MyProcessingSketch" });
+		PApplet.main(new String[] { "--present", "TriangleEditor" });
 	}
 }
