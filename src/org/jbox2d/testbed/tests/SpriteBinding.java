@@ -79,23 +79,23 @@ public class SpriteBinding extends AbstractExample {
             
          }
         
-        // Load the image from a file
-        myImage = parent.loadImage("noise.png");
-        
-        // Zero offset (center image on center of object)
-        Vec2 localOffset = new Vec2(0.0f, 0f);
-        
-        // Scale image to fit box width
-        // (actually, we slightly undershoot here so we can still see the drawn lines)
-        float scale = 1.9f / myImage.width;
-        
-        // Zero rotation relative to box
-        float rot = 0f;
-        
-        // Bind images to boxes
-        for (int i=0; i<boxes.length; ++i) {
-            bindImage(myImage, localOffset, rot, scale, boxes[i]);   
-        }
+//        // Load the image from a file
+//        myImage = parent.loadImage("noise.png");
+//        
+//        // Zero offset (center image on center of object)
+//        Vec2 localOffset = new Vec2(0.0f, 0f);
+//        
+//        // Scale image to fit box width
+//        // (actually, we slightly undershoot here so we can still see the drawn lines)
+//        float scale = 1.9f / myImage.width;
+//        
+//        // Zero rotation relative to box
+//        float rot = 0f;
+//        
+//        // Bind images to boxes
+//        for (int i=0; i<boxes.length; ++i) {
+//            bindImage(myImage, localOffset, rot, scale, boxes[i]);   
+//        }
         //textureMode(NORMALIZED);
     }
     

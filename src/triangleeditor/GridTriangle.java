@@ -1,3 +1,4 @@
+package triangleeditor;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -66,6 +67,8 @@ public class GridTriangle {
 			app.ellipse(centroid.x, centroid.y, 2, 2);
 			
 		}
+		
+//		rotate(1);
 	}
 	
 	/**

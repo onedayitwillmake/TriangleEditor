@@ -1,33 +1,48 @@
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion.Static;
+package triangleeditor;
 
 import processing.core.*;
+import triangleeditor.physics.PhysicsController;
 
 
 public class TriangleEditor extends PApplet {
 	float				_elapsedFrames;
 	GridModel			_gridModel;
+	PhysicsController	_physicsController;
 	
 	public void setup() {
 		_elapsedFrames = 0;
 		
-		size(1200, 600);
+		size(1200, 600, P3D);
 		frameRate(60);
 		background(0);
 		setupGrid();
+		setupPhysicsController();
 	}
 	
 	public void setupGrid() {
 		_gridModel = new GridModel(width, height, 50, this);
 	}
 	
+	public void setupPhysicsController() {
+		_physicsController = new PhysicsController( this );
+		_physicsController.createWorld(width, height, 0, 20, width*2, height*2, width, height, 10);
+		
+		_physicsController.m_density = 1;
+		_physicsController.m_restitution = random(1);
+//		_physicsController.m_
+		for( int i = 0; i < 100; ++i ) {
+			_physicsController.createCircle(random(width), 10, random(5, 20));
+		}
+	}
+	
 	public void draw() {
 		++_elapsedFrames;
-		fill( 255 );
-        rect(0,0, width, height);
-        
-		noStroke();
-		drawGrid();
-		
+		background(0);
+//		fill( 255 );
+//        rect(0,0, width, height);
+//        
+//		noStroke();
+//		drawGrid();
 		
 	}
 	
@@ -98,6 +113,6 @@ public class TriangleEditor extends PApplet {
 
 	//
 	public static void main(String args[]) {
-		PApplet.main(new String[] { "--present", "TriangleEditor" });
+		PApplet.main(new String[] { "--present", "triangleeditor.TriangleEditor" });
 	}
 }

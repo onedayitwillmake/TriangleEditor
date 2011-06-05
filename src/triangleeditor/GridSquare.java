@@ -1,3 +1,4 @@
+package triangleeditor;
 /**
  * A single grid square, each square contains two triangles
  * @author onedayitwillmake

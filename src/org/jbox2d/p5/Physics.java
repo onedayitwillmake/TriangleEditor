@@ -147,7 +147,7 @@ public class Physics {
 	public Physics(PApplet parent, float screenW, float screenH) {
 		this(	parent,									//parent PApplet
 				screenW, screenH,
-				0.0f,-10.0f, 							//gravity vector
+				0.0f,-50.0f, 							//gravity vector
 				//0.5f*parent.width, 0.5f*parent.height, 	//center of the world
 				2*screenW,2*screenH, 		//AABB (px)
 				screenW,screenH, 			//hard border (px)
