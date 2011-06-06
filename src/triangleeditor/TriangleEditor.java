@@ -29,7 +29,7 @@ public class TriangleEditor extends PApplet {
 	}
 	
 	public void setupGrid() {
-		_gridModel = new GridModel(width, height, 100, this);
+		_gridModel = new GridModel(width, height, 25, this);
 	}
 	
 	public void setupPhysicsController() {
@@ -40,8 +40,8 @@ public class TriangleEditor extends PApplet {
 		_physicsController.m_density = 1;
 		_physicsController.m_restitution = 0.5f;
 		for( int i = 0; i < 500; ++i ) {
-//			Body circle = _physicsController.createCircle(random(width), 10, random(5, 20));
-//			_circles.add( circle );
+			Body circle = _physicsController.createCircle(random(width), 10, random(5, 20));
+			_circles.add( circle );
 		}
 	}
 	
@@ -128,16 +128,8 @@ public class TriangleEditor extends PApplet {
 		triangle.set_isActive( true );
 		
 		if(triangle.get_body() != null ) {
-//			_physicsController.get_world().destroyBody( triangle.get_body() );
-						
-			Vec2 pos = triangle.get_body().getWorldCenter();
-			Vec2 screenPos = _physicsController.worldToScreen( pos );
-			pos = _physicsController.screenToWorldVector( pos );
-			print( screenPos + "\n" );
-			
-			triangle.get_body().setXForm( pos, triangle.get_body().getAngle() + 90 * DEG_TO_RAD);
+			_physicsController.get_world().destroyBody( triangle.get_body() );
 			triangle.rotate( 90 );
-			return;
 		}
 		
 		PVector[] trianglePoints = triangle.getPoints( true );
