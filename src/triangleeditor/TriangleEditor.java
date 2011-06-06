@@ -141,10 +141,15 @@ public class TriangleEditor extends PApplet {
 		_physicsController.m_restitution = 0.8f;
 		
 		Body triangleBody = _physicsController.createPolygon(trianglePoints.get(0).x, trianglePoints.get(0).y, 
-				trianglePoints.get(0).x, trianglePoints.get(0).y,
-				trianglePoints.get(0).x, trianglePoints.get(0).y);
+				trianglePoints.get(1).x, trianglePoints.get(1).y,
+				trianglePoints.get(2).x, trianglePoints.get(2).y);
 		
 		triangle.set_body( triangleBody );
+		
+		print("Creating triangle:");
+		print(triangleBody);
+		print("\n");
+		
 	}
 
 	//

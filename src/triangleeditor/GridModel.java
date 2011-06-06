@@ -26,7 +26,7 @@ public class GridModel {
 
 	public GridModel( int width, int height, int squareSize, PApplet app ) {
 
-		b = app.loadImage("images/tree.png");
+		b = app.loadImage("../resources/images/tree.png");
 		
 		
 		this.app = app;
