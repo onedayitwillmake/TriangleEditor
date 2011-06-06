@@ -40,7 +40,7 @@ public class TriangleEditor extends PApplet {
 		_physicsController.m_density = 1;
 		_physicsController.m_restitution = 0.5f;
 		for( int i = 0; i < 500; ++i ) {
-			Body circle = _physicsController.createCircle(random(width), 10, random(5, 20));
+			Body circle = _physicsController.createCircle(random(width), 10, random(2, 8));
 			_circles.add( circle );
 		}
 	}
@@ -127,16 +127,22 @@ public class TriangleEditor extends PApplet {
 		
 		triangle.set_isActive( true );
 		
+		// If the triangle already has a body, destroy it
 		if(triangle.get_body() != null ) {
 			_physicsController.get_world().destroyBody( triangle.get_body() );
 			triangle.rotate( 90 );
 		}
 		
-		PVector[] trianglePoints = triangle.getPoints( true );
+		
+		// Create a triangle based on the CCW points of the triangle
+		ArrayList<PVector> trianglePoints = triangle.getPoints( true );
 		_physicsController.m_density = 0;
-		Body triangleBody = _physicsController.createPolygon(trianglePoints[0].x, trianglePoints[0].y, 
-				trianglePoints[1].x, trianglePoints[1].y,
-				trianglePoints[2].x, trianglePoints[2].y);
+		_physicsController.m_friction = 1;
+		_physicsController.m_restitution = 0.8f;
+		
+		Body triangleBody = _physicsController.createPolygon(trianglePoints.get(0).x, trianglePoints.get(0).y, 
+				trianglePoints.get(0).x, trianglePoints.get(0).y,
+				trianglePoints.get(0).x, trianglePoints.get(0).y);
 		
 		triangle.set_body( triangleBody );
 	}

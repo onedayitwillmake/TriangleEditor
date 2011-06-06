@@ -107,7 +107,7 @@ public class GridTriangle {
 		centroid.y = (A.y + B.y + C.y) / 3.0f;
 	}
 	
-	public PVector[] getPoints( Boolean clockWise ) {
+	public ArrayList<PVector> getPoints( Boolean clockWise ) {
 		
 		ArrayList<PVector> pointList = new ArrayList<PVector>();
 		pointList.add(A);
@@ -115,28 +115,7 @@ public class GridTriangle {
 		pointList.add(C);
 		
 		Collections.sort( pointList, new TriangleVectorComparator(origin) );
-		
-		PVector[] points = {pointList.get(0), pointList.get(1), pointList.get(2)};
-		return points;
-//		
-//		
-//		if(C.x < A.x) { 
-//			if( B.x < C.x ) {
-//				PVector[] BCA = {B,C,A};
-//				return BCA;
-//			}
-//			
-//			PVector[] CBA = {C,B,A};
-//			return CBA;
-//		} else {
-//			if( B.x < A.x ) {
-//				PVector[] CAB = {C,A,B};
-//				return CAB;
-//			}
-//			
-//			PVector[] ABC = {A,B,C};
-//			return ABC;
-//		}
+		return pointList;
 	}
 	
 	/**

@@ -68,7 +68,7 @@ public class PhysicsController {
 	
 	private void setupTestSettings() {
 		_settings = new TestSettings();
-		_settings.drawAABBs = true;
+		_settings.drawAABBs = false;
 		
 	}
 	

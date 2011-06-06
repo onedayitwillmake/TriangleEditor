@@ -1,3 +1,7 @@
+/**
+ * Used to sort a set of polygonal points based on the barycenter
+ * http://gamedev.stackexchange.com/questions/13229/sorting-array-of-points-in-clockwise-order
+ */
 package triangleeditor;
 
 import java.util.Comparator;
@@ -20,8 +24,3 @@ public class TriangleVectorComparator implements Comparator<PVector>  {
 	}
 	
 }
-//
-//class TrianglePointComparator implements Comparator<PVector> {
-//
-//	
-//}
