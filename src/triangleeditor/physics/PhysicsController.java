@@ -359,4 +359,6 @@ public class PhysicsController {
 		}
 		return ret;
 	}
+
+	public World get_world() { return _world; }
 }

@@ -1,14 +1,13 @@
 package triangleeditor;
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.jbox2d.dynamics.Body;
 
 import processing.core.PApplet;
 import processing.core.PVector;
 
 
-/**
- * Represents a triangle given 3 points
- * @author onedayitwillmake
- */
 public class GridTriangle {
 	public PVector	A;
 	public PVector	B;
@@ -109,13 +108,35 @@ public class GridTriangle {
 	}
 	
 	public PVector[] getPoints( Boolean clockWise ) {
-		if(C.x < A.x) {
-			PVector[] CBA = {C,B,A};
-			return CBA;
-		} else {
-			PVector[] ABC = {A,B,C};
-			return ABC;
-		}
+		
+		ArrayList<PVector> pointList = new ArrayList<PVector>();
+		pointList.add(A);
+		pointList.add(B);
+		pointList.add(C);
+		
+		Collections.sort( pointList, new TriangleVectorComparator(origin) );
+		
+		PVector[] points = {pointList.get(0), pointList.get(1), pointList.get(2)};
+		return points;
+//		
+//		
+//		if(C.x < A.x) { 
+//			if( B.x < C.x ) {
+//				PVector[] BCA = {B,C,A};
+//				return BCA;
+//			}
+//			
+//			PVector[] CBA = {C,B,A};
+//			return CBA;
+//		} else {
+//			if( B.x < A.x ) {
+//				PVector[] CAB = {C,A,B};
+//				return CAB;
+//			}
+//			
+//			PVector[] ABC = {A,B,C};
+//			return ABC;
+//		}
 	}
 	
 	/**
@@ -131,5 +152,6 @@ public class GridTriangle {
 	 */
 	public Body get_body() { return _body; }
 	public void set_body(Body _body) {this._body = _body; }	
-	
 }
+
+

@@ -10,6 +10,8 @@ import triangleeditor.physics.PhysicsController;
 
 
 public class TriangleEditor extends PApplet {
+	private static final long serialVersionUID = -3824555102005090780L;
+	
 	float				_elapsedFrames;
 	GridModel			_gridModel;
 	PhysicsController	_physicsController;
@@ -27,7 +29,7 @@ public class TriangleEditor extends PApplet {
 	}
 	
 	public void setupGrid() {
-		_gridModel = new GridModel(width, height, 50, this);
+		_gridModel = new GridModel(width, height, 100, this);
 	}
 	
 	public void setupPhysicsController() {
@@ -38,8 +40,8 @@ public class TriangleEditor extends PApplet {
 		_physicsController.m_density = 1;
 		_physicsController.m_restitution = 0.5f;
 		for( int i = 0; i < 500; ++i ) {
-			Body circle = _physicsController.createCircle(random(width), 10, random(5, 20));
-			_circles.add( circle );
+//			Body circle = _physicsController.createCircle(random(width), 10, random(5, 20));
+//			_circles.add( circle );
 		}
 	}
 	
@@ -120,20 +122,31 @@ public class TriangleEditor extends PApplet {
 		
 		// Already was active - rotate
 		if(triangle.get_isActive()) {
-//			triangle.rotate(90);
+			
 		}
 		
 		triangle.set_isActive( true );
 		
-		if(triangle.get_body() == null ) {
-			PVector[] trianglePoints = triangle.getPoints( true );
-			_physicsController.m_density = 0;
-			Body triangleBody = _physicsController.createPolygon(trianglePoints[0].x, trianglePoints[0].y, 
-					trianglePoints[1].x, trianglePoints[1].y,
-					trianglePoints[2].x, trianglePoints[2].y);
+		if(triangle.get_body() != null ) {
+//			_physicsController.get_world().destroyBody( triangle.get_body() );
+						
+			Vec2 pos = triangle.get_body().getWorldCenter();
+			Vec2 screenPos = _physicsController.worldToScreen( pos );
+			pos = _physicsController.screenToWorldVector( pos );
+			print( screenPos + "\n" );
 			
-			triangle.set_body( triangleBody );
+			triangle.get_body().setXForm( pos, triangle.get_body().getAngle() + 90 * DEG_TO_RAD);
+			triangle.rotate( 90 );
+			return;
 		}
+		
+		PVector[] trianglePoints = triangle.getPoints( true );
+		_physicsController.m_density = 0;
+		Body triangleBody = _physicsController.createPolygon(trianglePoints[0].x, trianglePoints[0].y, 
+				trianglePoints[1].x, trianglePoints[1].y,
+				trianglePoints[2].x, trianglePoints[2].y);
+		
+		triangle.set_body( triangleBody );
 	}
 
 	//

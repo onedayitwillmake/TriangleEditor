@@ -96,7 +96,7 @@ public class GridSquare {
 		Boolean isInTriangleB = _triangleB.containsPoint(mouseX, mouseY);
 		
 //		PApplet.print("ContainsPoint: A:" + isInTriangleA + " B: " + isInTriangleB + "\n" );
-		PApplet.print( __color );
+//		PApplet.print( __color );
 
 		if(isInTriangleA) return _triangleA;
 		else if(isInTriangleB) return _triangleB;
