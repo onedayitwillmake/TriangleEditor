@@ -107,6 +107,11 @@ public class GridTriangle {
 		centroid.y = (A.y + B.y + C.y) / 3.0f;
 	}
 	
+	/**
+	 * Returns this triangle's points in clockwise or counter-clockwise order
+	 * @param clockWise	If true will return points 
+	 * @return
+	 */
 	public ArrayList<PVector> getPoints( Boolean clockWise ) {
 		
 		ArrayList<PVector> pointList = new ArrayList<PVector>();
