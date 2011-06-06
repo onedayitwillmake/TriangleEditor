@@ -15,7 +15,7 @@ public class TriangleEditor extends PApplet {
 	float				_elapsedFrames;
 	GridModel			_gridModel;
 	PhysicsController	_physicsController;
-	ArrayList<Body>		_circles = new ArrayList<Body>();
+	ArrayList<GridCircle>		_circles = new ArrayList<GridCircle>();
 	
 	public void setup() {
 		_elapsedFrames = 0;
@@ -29,7 +29,7 @@ public class TriangleEditor extends PApplet {
 	}
 	
 	public void setupGrid() {
-		_gridModel = new GridModel(width, height, 25, this);
+		_gridModel = new GridModel(width, height, 50, this);
 	}
 	
 	public void setupPhysicsController() {
@@ -40,8 +40,7 @@ public class TriangleEditor extends PApplet {
 		_physicsController.m_density = 1;
 		_physicsController.m_restitution = 0.5f;
 		for( int i = 0; i < 500; ++i ) {
-			Body circle = _physicsController.createCircle(random(width), 10, random(2, 8));
-			_circles.add( circle );
+			createGridCircle( random(width), 10, random(2, 8) );
 		}
 	}
 	
@@ -53,16 +52,19 @@ public class TriangleEditor extends PApplet {
 		drawGrid();
 		
 		_physicsController.update();
-		_physicsController.draw();
+//		_physicsController.draw();
 		
 		// Reset circles
-		for( Body body : _circles ) {
+		for( GridCircle gridCircle : _circles ) {
+			Body body = gridCircle.get_body();
 			Vec2 pos = _physicsController.worldToScreen( body.getPosition() );
 			if( pos.y > height ) {
 				Vec2 randomPosition = _physicsController.screenToWorld( random(width), 0);
 				body.setXForm( randomPosition, 0);
-				body.setLinearVelocity( new Vec2(0.0f, 0.0f) );
+				body.setLinearVelocity( new Vec2(8.0f, 0.0f) );
 			}
+			
+			gridCircle.draw( _physicsController );
 		}
 	}
 	
@@ -144,12 +146,19 @@ public class TriangleEditor extends PApplet {
 				trianglePoints.get(1).x, trianglePoints.get(1).y,
 				trianglePoints.get(2).x, trianglePoints.get(2).y);
 		
-		triangle.set_body( triangleBody );
-		
-		print("Creating triangle:");
-		print(triangleBody);
-		print("\n");
-		
+		triangle.set_body( triangleBody );		
+	}
+	
+	/**
+	 * Creates a Box2D circle object represented by a GridCircle
+	 * @param posX
+	 * @param posY
+	 * @param aRadius
+	 */
+	private void createGridCircle( float posX, float posY, float aRadius ) {
+		Body circleBody = _physicsController.createCircle( posX, posY, aRadius );
+		GridCircle gridCircle = new GridCircle( circleBody, aRadius, this );
+		_circles.add( gridCircle );
 	}
 
 	//
