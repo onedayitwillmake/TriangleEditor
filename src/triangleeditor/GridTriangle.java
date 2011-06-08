@@ -6,9 +6,10 @@ import org.jbox2d.dynamics.Body;
 
 import processing.core.PApplet;
 import processing.core.PVector;
+import triangleeditor.physics.PhysicsController;
 
 
-public class GridTriangle {
+public class GridTriangle implements ILevelObject {
 	public PVector	A;
 	public PVector	B;
 	public PVector	C;
@@ -54,7 +55,7 @@ public class GridTriangle {
         return (PApplet.abs((float) total_angles - PApplet.TWO_PI) <= 0.01f);
 	}
 	
-	public void draw() {
+	public void draw( PhysicsController physicsController ) {
 		if(_body == null) { 
 			return;
 		}
@@ -135,7 +136,7 @@ public class GridTriangle {
 	 * @return
 	 */
 	public Body get_body() { return _body; }
-	public void set_body(Body _body) {this._body = _body; }	
+	public void set_body(Body _body) {this._body = _body; }
 }
 
 

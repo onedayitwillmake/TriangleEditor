@@ -8,6 +8,7 @@ import javax.vecmath.Color3b;
 
 import processing.core.PApplet;
 import processing.core.PVector;
+import triangleeditor.physics.PhysicsController;
 
 public class GridSquare {
 	
@@ -73,16 +74,16 @@ public class GridSquare {
 		_triangleB = new GridTriangle(A1, B1, C1, _center, app);
 	}
 	
-	public void draw()
+	public void draw( PhysicsController physicsController )
 	{
 
         
 		// Set color based on value - our values start at zero, so we say (white) - value = color
 		app.fill( __color );
-		_triangleA.draw();
+		_triangleA.draw( physicsController );
 		
 		app.fill( __color );
-		_triangleB.draw();
+		_triangleB.draw( physicsController );
 	}
 
 	/**

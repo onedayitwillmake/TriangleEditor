@@ -8,6 +8,7 @@ import org.jbox2d.dynamics.Body;
 import processing.core.*;
 import triangleeditor.gui.GuiController;
 import triangleeditor.model.GridModel;
+import triangleeditor.model.LevelModel;
 import triangleeditor.physics.PhysicsController;
 
 
@@ -16,12 +17,11 @@ public class TriangleEditor extends PApplet {
 	
 	private float				_elapsedFrames;
 	private GridModel			_gridModel;
+	private LevelModel			_levelModel;
 	
 	private PhysicsController	_physicsController;
 	private GuiController		_guiController;
-	
-	private ArrayList<ObjectView>		_circles = new ArrayList<ObjectView>();
-	
+		
 	// States
 	public Boolean isSmoothing = false;
 	public void setup() {
@@ -32,29 +32,12 @@ public class TriangleEditor extends PApplet {
 		background(0);
 		
 		
-		setupGrid();
-		setupPhysicsController();
-		setupControls();
-	}
-	
-	
-	private void setupControls() {
-		// TODO Auto-generated method stub
-		_guiController = new GuiController( this );
-		_guiController.toggle();
-	}
-
-	public void setupGrid() {
-		_gridModel = new GridModel(width, height, 025, this);
-	}
-	
-	public void setupPhysicsController() {
-		_physicsController = new PhysicsController( this );
-		_physicsController.createWorld(width, height, 0, 20, width*2, height*2, width, height, 20);
-//		_physicsController.createHollowBox(width * 0.5f, height*.5f, width, height, 10.0f);
 		
-		_physicsController.m_density = 1;
-		_physicsController.m_restitution = 0.5f;
+		setupPhysicsController();
+		setupLevelModel();
+		setupGrid();
+		setupControls();
+		
 		for( int i = 0; i < 800; ++i ) {
 			
 //			if( Math.random() < 0.25 ) {
@@ -67,6 +50,29 @@ public class TriangleEditor extends PApplet {
 		}
 	}
 	
+	
+	private void setupControls() {
+		_guiController = new GuiController( this );
+		_guiController.toggle();
+	}
+
+	public void setupGrid() {
+		_gridModel = new GridModel(width, height, 75, this);
+	}
+	
+	public void setupLevelModel() {
+		_levelModel = new LevelModel();
+	}
+	
+	public void setupPhysicsController() {
+		_physicsController = new PhysicsController( this );
+		_physicsController.createWorld(width, height, 0, 20, width*2, height*2, width, height, 20);
+//		_physicsController.createHollowBox(width * 0.5f, height*.5f, width, height, 10.0f);
+		
+		_physicsController.m_density = 1;
+		_physicsController.m_restitution = 0.5f;
+	}
+	
 	@SuppressWarnings("unused")
 	public void draw() {
 		++_elapsedFrames;
@@ -77,8 +83,12 @@ public class TriangleEditor extends PApplet {
 		_physicsController.update();
 //		_physicsController.draw();
 		
+		for( FallingObject gridCircle : _levelModel.get_fallingObjects() ) {
+			
+		}
+		
 		// Reset circles
-		for( ObjectView gridCircle : _circles ) {
+		for( FallingObject gridCircle : _levelModel.get_fallingObjects() ) {
 			Body body = gridCircle.get_body();
 			Vec2 pos = _physicsController.worldToScreen( body.getPosition() );
 			if( pos.y > height ) {
@@ -97,7 +107,7 @@ public class TriangleEditor extends PApplet {
 	 */
 	public void drawGrid() {
 		for (GridSquare square : _gridModel.get_gridSquareList() ) {
-			square.draw();
+			square.draw( _physicsController );
 		}
 	}
 	
@@ -219,8 +229,8 @@ public class TriangleEditor extends PApplet {
 	 */
 	private void addCircle( float posX, float posY, float aRadius ) {
 		Body circleBody = _physicsController.createCircle(posX, posY, aRadius);
-		ObjectView gridCircle = new ObjectView( circleBody, aRadius, ObjectView.CIRCLE, this );
-		_circles.add( gridCircle );
+		FallingObject gridCircle = new FallingObject( circleBody, aRadius, FallingObject.CIRCLE, this );
+		_levelModel.addObject( gridCircle );
 	}
 	
 	/**
@@ -231,8 +241,8 @@ public class TriangleEditor extends PApplet {
 	 */
 	private void addSquare( float posX, float posY, float width ) {
 		Body circleBody = _physicsController.createRect(posX, posY, posX+width, posY+width);
-		ObjectView gridCircle = new ObjectView( circleBody, width, ObjectView.RECTANGLE, this );
-		_circles.add( gridCircle );
+		FallingObject gridSquare = new FallingObject( circleBody, width, FallingObject.RECTANGLE, this );
+		_levelModel.addObject( gridSquare );
 	}
 
 	//

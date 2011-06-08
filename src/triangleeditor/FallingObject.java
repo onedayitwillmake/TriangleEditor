@@ -6,7 +6,7 @@ import org.jbox2d.dynamics.Body;
 import processing.core.PApplet;
 import triangleeditor.physics.PhysicsController;
 
-public class ObjectView {
+public class FallingObject implements ILevelObject {
 	private Body	_body;
 	private float	_radius;
 	private int		_type;		// Can be rectangle or circle
@@ -15,7 +15,7 @@ public class ObjectView {
 	public static int CIRCLE = 1;
 	
 	private PApplet app;
-	public ObjectView( Body aBody, float aRadius, int type, PApplet appRef ) {
+	public FallingObject( Body aBody, float aRadius, int type, PApplet appRef ) {
 		app = appRef;
 		_type = type;
 		_body = aBody;
@@ -30,10 +30,10 @@ public class ObjectView {
 		Vec2 pos = physicsController.worldToScreen( _body.getPosition() );
 		
 		// Draw circle or square
-		if(_type == ObjectView.CIRCLE) {
+		if(_type == FallingObject.CIRCLE) {
 			app.ellipseMode( PApplet.CENTER );
 			app.ellipse( pos.x, pos.y, _radius*2, _radius*2 );
-		} else if( _type == ObjectView.RECTANGLE ) {
+		} else if( _type == FallingObject.RECTANGLE ) {
 			app.rectMode( PApplet.CENTER );
 			app.rect(pos.x, pos.y, _radius, _radius);
 		}
