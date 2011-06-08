@@ -27,8 +27,8 @@ public class GuiController implements ControlListener {
 		_controls = new ControlP5( appRef );
 		_controls.addListener( this );
 		_controls.addButton("rotate", 1);
-		_controls.addButton("delete", 1);
-		_controls.addSlider("resitution", 0.0f, 1.0f);
+		_controls.addButton("delete", 1).linebreak();
+		_controls.addSlider("restitution", 0.0f, 1.0f);
 	}
 	
 	@Override
@@ -41,11 +41,17 @@ public class GuiController implements ControlListener {
 			Method mthd = cl.getMethod(methodName, Controller.class);
 			mthd.invoke(this, theEvent.controller() );
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
+	public void updateProps() {
+		if( _activeTriangle == null || _activeTriangle.get_body() == null ) return;
+		
+		_controls.getController("restitution").setValue(_activeTriangle.get_body().m_shapeList.getRestitution() );
+	}
+	
+//////////////////////////////////////////////////////////////////////
 	public void rotateTriangle( Controller controller ) {
 		if( _activeTriangle == null ) return;
 		
@@ -59,14 +65,14 @@ public class GuiController implements ControlListener {
 		app.destroyTriangle( _activeTriangle );
 	}
 	
-	public void resitutionTriangle( Controller controller ) {
+	public void restitutionTriangle( Controller controller ) {
 		if( _activeTriangle == null ) return;
 
 		// Modify restitution of all shapes
 		Body body = _activeTriangle.get_body();
 		Shape shape = body.m_shapeList;
 		while( shape != null ) {
-			shape.setRestitution( controller.value() );
+			shape.setRestitution( controller.value() * 2 );
 			shape = shape.m_next;
 		}
 	}
@@ -92,10 +98,10 @@ public class GuiController implements ControlListener {
 			_activeTriangle.set_isActive( false );
 		}
 
-		
-		
 		_activeTriangle = anActiveTriangle;
 		_activeTriangle.set_isActive( true );
+		
+		updateProps();
 	}
 	
 	public Boolean get_isActive() { return _isActive; }
