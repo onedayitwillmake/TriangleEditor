@@ -1,8 +1,10 @@
-package triangleeditor;
+package triangleeditor.model;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import triangleeditor.GridSquare;
+import triangleeditor.GridTriangle;
 
 /**
  * Model that contains a 2 column array of GridSquares

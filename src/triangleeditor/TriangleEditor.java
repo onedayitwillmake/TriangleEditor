@@ -7,6 +7,7 @@ import org.jbox2d.dynamics.Body;
 
 import processing.core.*;
 import triangleeditor.gui.GuiController;
+import triangleeditor.model.GridModel;
 import triangleeditor.physics.PhysicsController;
 
 
@@ -207,6 +208,8 @@ public class TriangleEditor extends PApplet {
 		triangle.rotate( 90 );
 	}
 
+	
+	
 
 	/**
 	 * Creates a Box2D circle object represented by a GridCircle
