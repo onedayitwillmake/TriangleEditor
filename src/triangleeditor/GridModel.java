@@ -61,7 +61,7 @@ public class GridModel {
 	}
 	
 	/**
-	 * Returns the square that at position
+	 * Returns the square located at xpos,ypos
 	 * @param xpos
 	 * @param ypos
 	 * @return
@@ -77,7 +77,21 @@ public class GridModel {
 	    return _gridSquares[column][row];
 	}
 	
+	/**
+	 * Returns the Triangle at xpos, ypos
+	 * @param mouseX
+	 * @param mouseY
+	 * @return
+	 */
+	public GridTriangle getTriangleAtPosition(int mouseX, int mouseY) {
+		GridSquare square = getSquareAtPosition( mouseX, mouseY );
+		if( square == null ) return null; // No square at location
+						
+		return square.getTriangle( mouseX, mouseY );
+	}
+	
 	public ArrayList<GridSquare> get_gridSquareList() {
 		return _gridSquareList;
 	}
+
 }

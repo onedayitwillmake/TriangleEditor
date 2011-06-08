@@ -6,17 +6,23 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
 import processing.core.*;
+import triangleeditor.gui.GuiController;
 import triangleeditor.physics.PhysicsController;
 
 
 public class TriangleEditor extends PApplet {
 	private static final long serialVersionUID = -3824555102005090780L;
 	
-	float				_elapsedFrames;
-	GridModel			_gridModel;
-	PhysicsController	_physicsController;
-	ArrayList<ObjectView>		_circles = new ArrayList<ObjectView>();
+	private float				_elapsedFrames;
+	private GridModel			_gridModel;
 	
+	private PhysicsController	_physicsController;
+	private GuiController		_guiController;
+	
+	private ArrayList<ObjectView>		_circles = new ArrayList<ObjectView>();
+	
+	// States
+	public Boolean isSmoothing = false;
 	public void setup() {
 		_elapsedFrames = 0;
 		
@@ -24,12 +30,21 @@ public class TriangleEditor extends PApplet {
 		frameRate(60);
 		background(0);
 		
+		
 		setupGrid();
 		setupPhysicsController();
+		setupControls();
 	}
 	
+	
+	private void setupControls() {
+		// TODO Auto-generated method stub
+		_guiController = new GuiController( this );
+		_guiController.toggle();
+	}
+
 	public void setupGrid() {
-		_gridModel = new GridModel(width, height, 50, this);
+		_gridModel = new GridModel(width, height, 025, this);
 	}
 	
 	public void setupPhysicsController() {
@@ -39,8 +54,15 @@ public class TriangleEditor extends PApplet {
 		
 		_physicsController.m_density = 1;
 		_physicsController.m_restitution = 0.5f;
-		for( int i = 0; i < 500; ++i ) {
-			addCircle( random(width), 10, random(2, 8) );
+		for( int i = 0; i < 800; ++i ) {
+			
+//			if( Math.random() < 0.25 ) {
+			//	addSquare( random(width), 10, random(4, 12) );
+//			} else { 
+			
+				addCircle( random(width), 10, random(3, 9) );
+//			}
+			//addCircle( random(width), 10, random(3, 9) );
 		}
 	}
 	
@@ -86,7 +108,10 @@ public class TriangleEditor extends PApplet {
 	@Override
 	public void mouseDragged() {
 		super.mouseDragged();
-		handleSquares();
+		
+//		if( _guiController != null && !_guiController.get_isActive() ) {
+//			handleSquares();
+//		}
 	}
 
 	/* (non-Javadoc)
@@ -111,30 +136,49 @@ public class TriangleEditor extends PApplet {
 	@Override
 	public void mouseReleased() {
 		super.mouseReleased();
-		handleSquares();
+
+		print( _guiController.get_isActive() );
+		if( _guiController != null ) {
+			if( _guiController.get_isActive() ) {
+				_guiController.set_activeTriangle( _gridModel.getTriangleAtPosition(mouseX, mouseY) );
+			} else { 
+				createTriangleAtMouse();
+			}
+		}
 	}
 	
-	private void handleSquares(){
-		GridSquare square = _gridModel.getSquareAtPosition( mouseX, mouseY );
-		if( square == null ) return; // No square at location
-				
-		GridTriangle triangle = square.getTriangle( mouseX, mouseY );
-		if(triangle == null)  return; // No triangle at location
+	@Override
+	public void keyPressed() {
 		
-		
-		// Already was active - rotate
-		if(triangle.get_isActive()) {
+		if (key == CODED && keyCode == UP && _guiController != null) {
+			_guiController.toggle();
+		}
 			
+		super.keyPressed();
+	}
+
+
+	private void createTriangleAtMouse(){
+		GridTriangle triangle = _gridModel.getTriangleAtPosition( mouseX, mouseY );
+		
+		if( triangle == null ) return;
+		
+		createTriangleBody( triangle );
+		
+		if(_guiController != null) {
+			_guiController.set_activeTriangle( triangle );
 		}
-		
-		triangle.set_isActive( true );
-		
-		// If the triangle already has a body, destroy it
-		if(triangle.get_body() != null ) {
+	}
+	
+	/**
+	 * Creates a Box2D body using information from triangle
+	 * @param triangle
+	 */
+	public void createTriangleBody(GridTriangle triangle) {
+		// Destroy current triangle
+		if( triangle.get_body() != null ) {
 			_physicsController.get_world().destroyBody( triangle.get_body() );
-			triangle.rotate( 90 );
 		}
-		
 		
 		// Create a triangle based on the CCW points of the triangle
 		ArrayList<PVector> trianglePoints = triangle.getPoints( true );
@@ -146,9 +190,24 @@ public class TriangleEditor extends PApplet {
 				trianglePoints.get(1).x, trianglePoints.get(1).y,
 				trianglePoints.get(2).x, trianglePoints.get(2).y);
 		
-		triangle.set_body( triangleBody );		
+		triangle.set_body( triangleBody );
 	}
 	
+	public void destroyTriangle( GridTriangle triangle ) {
+		_physicsController.get_world().destroyBody( triangle.get_body() );
+		triangle.set_body( null );
+	}
+
+
+	/**
+	 * Rotate the triangle
+	 * @param triangle
+	 */
+	public void rotateTriangle(GridTriangle triangle) {
+		triangle.rotate( 90 );
+	}
+
+
 	/**
 	 * Creates a Box2D circle object represented by a GridCircle
 	 * @param posX
@@ -156,7 +215,6 @@ public class TriangleEditor extends PApplet {
 	 * @param aRadius
 	 */
 	private void addCircle( float posX, float posY, float aRadius ) {
-//		Body circleBody = _physicsController.createRect(posX, posY, posX+aRadius, posY+aRadius);
 		Body circleBody = _physicsController.createCircle(posX, posY, aRadius);
 		ObjectView gridCircle = new ObjectView( circleBody, aRadius, ObjectView.CIRCLE, this );
 		_circles.add( gridCircle );

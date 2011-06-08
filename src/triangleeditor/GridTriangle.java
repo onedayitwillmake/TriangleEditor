@@ -55,13 +55,13 @@ public class GridTriangle {
 	}
 	
 	public void draw() {
-		if(!_isActive) { 
+		if(_body == null) { 
 			return;
 		}
 		
 		app.triangle(A.x, A.y, B.x, B.y, C.x, C.y);
 		
-		Boolean shouldDrawCenter = true;
+		Boolean shouldDrawCenter = _isActive;
 		if(shouldDrawCenter) {
 			// Draw center
 			app.fill( 255 );
