@@ -1,10 +1,9 @@
-package triangleeditor;
+package triangleeditor.physics;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
 import processing.core.PApplet;
-import triangleeditor.physics.PhysicsController;
 
 public class FallingObject implements ILevelObject {
 	private Body	_body;

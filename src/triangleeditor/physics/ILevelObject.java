@@ -1,7 +1,7 @@
-package triangleeditor;
+package triangleeditor.physics;
 import org.jbox2d.dynamics.Body;
 
-import triangleeditor.physics.PhysicsController;
+
 
 /**
  * Represents an object that can draw itself, and also has a b2Body

@@ -6,6 +6,7 @@ import org.jbox2d.dynamics.Body;
 
 import processing.core.PApplet;
 import processing.core.PVector;
+import triangleeditor.physics.ILevelObject;
 import triangleeditor.physics.PhysicsController;
 
 

@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 import org.jbox2d.dynamics.Body;
 
-import triangleeditor.FallingObject;
-import triangleeditor.ILevelObject;
+import triangleeditor.physics.FallingObject;
+import triangleeditor.physics.ILevelObject;
 
 public class LevelModel {	 
 	private ArrayList<ILevelObject> _allObjects;
