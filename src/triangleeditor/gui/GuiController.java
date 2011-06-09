@@ -7,6 +7,7 @@ import org.jbox2d.dynamics.Body;
 
 import processing.core.PApplet;
 import triangleeditor.GridTriangle;
+import triangleeditor.SaveLoadController;
 import triangleeditor.TriangleEditor;
 import controlP5.ControlEvent;
 import controlP5.ControlListener;
@@ -26,19 +27,30 @@ public class GuiController implements ControlListener {
 		app = appRef;
 		_controls = new ControlP5( appRef );
 		_controls.addListener( this );
-		_controls.addButton("rotate", 1);
-		_controls.addButton("delete", 1).linebreak();
-		_controls.addSlider("restitution", 0.0f, 1.0f);
+		
+		Controller controller;
+		_controls.addButton("triangleRotate", 1).setLabel("rotate");
+		_controls.addButton("triangleDelete", 1).setLabel("delete");
+		controller = _controls.addSlider("triangleModifyRestitution", 0.0f, 1.0f).linebreak().linebreak();
+		controller.setLabel("Restitution");
+		controller.setColorCaptionLabel(0x0);
+		
+		//
+		
+		_controls.addButton("loadFile", 0);
+		_controls.addButton("saveFile", 0);
+		
 	}
 	
 	@Override
 	public void controlEvent(ControlEvent theEvent) {
 
-		String methodName = theEvent.controller().name() + "Triangle";
+		String methodName = theEvent.controller().name();
 		
 		try {
 			Class cl = Class.forName("triangleeditor.gui.GuiController");
 			Method mthd = cl.getMethod(methodName, Controller.class);
+			
 			mthd.invoke(this, theEvent.controller() );
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -48,24 +60,24 @@ public class GuiController implements ControlListener {
 	public void updateProps() {
 		if( _activeTriangle == null || _activeTriangle.get_body() == null ) return;
 		
-		_controls.getController("restitution").setValue(_activeTriangle.get_body().m_shapeList.getRestitution() );
+		_controls.getController("triangleModifyRestitution").setValue(_activeTriangle.get_body().m_shapeList.getRestitution() );
 	}
 	
 //////////////////////////////////////////////////////////////////////
-	public void rotateTriangle( Controller controller ) {
+	public void triangleRotate( Controller controller ) {
 		if( _activeTriangle == null ) return;
 		
 		app.rotateTriangle( _activeTriangle );
 		app.createTriangleBody( _activeTriangle );
 	}
 	
-	public void deleteTriangle( Controller controller ) {
+	public void triangleDelete( Controller controller ) {
 		if( _activeTriangle == null ) return;
 		
 		app.destroyTriangle( _activeTriangle );
 	}
 	
-	public void restitutionTriangle( Controller controller ) {
+	public void triangleModifyRestitution( Controller controller ) {
 		if( _activeTriangle == null ) return;
 
 		// Modify restitution of all shapes
@@ -75,6 +87,10 @@ public class GuiController implements ControlListener {
 			shape.setRestitution( controller.value() * 2 );
 			shape = shape.m_next;
 		}
+	}
+	
+	public void loadFile( Controller controller ) {
+		SaveLoadController.getInstance().loadRepresentationFromFileDialog();
 	}
 	
 	public void toggle() {
