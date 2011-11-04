@@ -61,7 +61,7 @@ public class TriangleEditor extends PApplet {
 	}
 
 	public void setupGrid() {
-		_gridModel = new GridModel(width, height, 75 , this);
+		_gridModel = new GridModel(width, height, 100 , this);
 	}
 	
 	public void setupLevelModel() {
