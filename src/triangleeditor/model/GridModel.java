@@ -1,6 +1,8 @@
 package triangleeditor.model;
 import java.util.ArrayList;
 
+import org.json.simple.JSONObject;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 import triangleeditor.GridSquare;
@@ -28,7 +30,7 @@ public class GridModel {
 
 	public GridModel( int width, int height, int squareSize, PApplet app ) {
 
-		b = app.loadImage("../resources/images/tree.png");
+		b = app.loadImage("data/tree.png");
 		
 		
 		this.app = app;
@@ -79,6 +81,12 @@ public class GridModel {
 	    return _gridSquares[column][row];
 	}
 	
+	//  JSONObject obj2=(JSONObject)array.get(1);
+
+	public void clear( JSONObject obj ) {
+		
+	}
+	
 	/**
 	 * Returns the Triangle at xpos, ypos
 	 * @param mouseX
@@ -94,6 +102,18 @@ public class GridModel {
 	
 	public ArrayList<GridSquare> get_gridSquareList() {
 		return _gridSquareList;
+	}
+
+	public void setSquareFromJSON(JSONObject anObject) {
+		// TODO Auto-generated method stub
+		float column = new Double( (Double) anObject.get("column") ).floatValue();
+		float row = new Double( (Double) anObject.get("row") ).floatValue();
+		float xpos = new Double( (Double) anObject.get("xpos") ).floatValue();
+		float ypos = new Double( (Double) anObject.get("ypos") ).floatValue();
+		float size = new Long( (Long) anObject.get("size") ).floatValue();
+		
+		_gridSquares[(int)column][(int)row] = new GridSquare( xpos, ypos, (int) column, (int) row, (int)size, app);
+	 	_gridSquareList.add( _gridSquares[(int)column][(int)row] );
 	}
 
 }

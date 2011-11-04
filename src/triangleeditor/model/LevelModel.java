@@ -13,12 +13,12 @@ public class LevelModel {
 	private ArrayList<FallingObject> _fallingObjects;
 	
 	public LevelModel() {
-    	_allObjects = new ArrayList<ILevelObject>();
+		_allObjects = new ArrayList<ILevelObject>();
     	_fallingObjects = new ArrayList<FallingObject>();
     }
     
     public void addObject( ILevelObject levelObject ) {
-    	_allObjects.add( levelObject );
+    	getAllObjects().add( levelObject );
     	
     	if( levelObject instanceof FallingObject ) {
     		_fallingObjects.add( (FallingObject)levelObject );
@@ -26,7 +26,7 @@ public class LevelModel {
     }
     
     public void removeObjet( ILevelObject levelObject ) {
-    	_allObjects.remove( levelObject );
+    	getAllObjects().remove( levelObject );
     	
     	if( levelObject instanceof FallingObject ) { 
     		_fallingObjects.add( (FallingObject)levelObject );
@@ -34,4 +34,5 @@ public class LevelModel {
     }
     
     public ArrayList<FallingObject> get_fallingObjects() { return _fallingObjects; }
+	public ArrayList<ILevelObject> getAllObjects() { return _allObjects;}
 }

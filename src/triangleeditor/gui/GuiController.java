@@ -47,6 +47,7 @@ public class GuiController implements ControlListener {
 
 		String methodName = theEvent.controller().name();
 		
+    	System.out.println( methodName );
 		try {
 			Class cl = Class.forName("triangleeditor.gui.GuiController");
 			Method mthd = cl.getMethod(methodName, Controller.class);
@@ -91,6 +92,10 @@ public class GuiController implements ControlListener {
 	
 	public void loadFile( Controller controller ) {
 		SaveLoadController.getInstance().loadRepresentationFromFileDialog();
+	}
+	
+	public void saveFile( Controller controller ) {
+		SaveLoadController.getInstance().saveToRepresentation();
 	}
 	
 	public void toggle() {

@@ -16,8 +16,9 @@ import triangleeditor.physics.PhysicsController;
 
 
 public class TriangleEditor extends PApplet {
-	private static final long serialVersionUID = -3824555102005090780L;
+//	private static final long serialVersionUID = -3824555102005090780L;
 	
+	private static TriangleEditor 	INSTANCE;
 	private float				_elapsedFrames;
 	private GridModel			_gridModel;
 	private LevelModel			_levelModel;
@@ -29,6 +30,7 @@ public class TriangleEditor extends PApplet {
 	public Boolean isSmoothing = false;
 	public void setup() {
 		_elapsedFrames = 0;
+		INSTANCE = this;
 		
 		size(1200, 600);
 		frameRate(60);
@@ -46,7 +48,9 @@ public class TriangleEditor extends PApplet {
 
 		Body prevBody = null;
 		for( int i = 0; i < 800; ++i ) {
-			FallingObject fallingCircle = addCircle( random(width), 10, random(3, 9) );
+			//  colorMode(HSB, 360, 100, height);
+			colorMode(HSB, 255);
+			FallingObject fallingCircle = addCircle( random(width), random(8, 12), random(3, 9), color(random(128) +128, 128, 255) );
 		}
 	}
 	
@@ -57,7 +61,7 @@ public class TriangleEditor extends PApplet {
 	}
 
 	public void setupGrid() {
-		_gridModel = new GridModel(width, height, 50 , this);
+		_gridModel = new GridModel(width, height, 75 , this);
 	}
 	
 	public void setupLevelModel() {
@@ -83,12 +87,12 @@ public class TriangleEditor extends PApplet {
 		_physicsController.update();
 //		_physicsController.draw();
 		
-		for( FallingObject gridCircle : _levelModel.get_fallingObjects() ) {
+		for( FallingObject gridCircle : getLevelModel().get_fallingObjects() ) {
 			
 		}
 		
 		// Reset circles
-		for( FallingObject gridCircle : _levelModel.get_fallingObjects() ) {
+		for( FallingObject gridCircle : getLevelModel().get_fallingObjects() ) {
 			Body body = gridCircle.get_body();
 			Vec2 pos = _physicsController.worldToScreen( body.getPosition() );
 			if( pos.y > height ) {
@@ -266,11 +270,13 @@ public class TriangleEditor extends PApplet {
 	 * @param posX
 	 * @param posY
 	 * @param aRadius
+	 * @param i 
+	 * @param object 
 	 */
-	private FallingObject addCircle( float posX, float posY, float aRadius ) {
+	private FallingObject addCircle( float posX, float posY, float aRadius, int i ) {
 		Body circleBody = _physicsController.createCircle(posX, posY, aRadius);
-		FallingObject gridCircle = new FallingObject( circleBody, aRadius, FallingObject.CIRCLE, this );
-		_levelModel.addObject( gridCircle );
+		FallingObject gridCircle = new FallingObject( circleBody, aRadius, FallingObject.CIRCLE, i, this );
+		getLevelModel().addObject( gridCircle );
 		
 		return gridCircle;
 	}
@@ -283,12 +289,20 @@ public class TriangleEditor extends PApplet {
 	 */
 	private void addSquare( float posX, float posY, float width ) {
 		Body circleBody = _physicsController.createRect(posX, posY, posX+width, posY+width);
-		FallingObject gridSquare = new FallingObject( circleBody, width, FallingObject.RECTANGLE, this );
-		_levelModel.addObject( gridSquare );
+		FallingObject gridSquare = new FallingObject( circleBody, width, FallingObject.RECTANGLE, 123, this );
+		getLevelModel().addObject( gridSquare );
 	}
+	
+	static public TriangleEditor getINSTANCE() { return INSTANCE; }
+	public LevelModel getLevelModel() { return _levelModel; }
+//	//
+//	public static void main(String args[]) {
+//		PApplet.main(new String[] { "--present", "triangleeditor.TriangleEditor" });
+//	}
 
-	//
-	public static void main(String args[]) {
-		PApplet.main(new String[] { "--present", "triangleeditor.TriangleEditor" });
+
+	public GridModel getGridModel() {
+		// TODO Auto-generated method stub
+		return _gridModel;
 	}
 }

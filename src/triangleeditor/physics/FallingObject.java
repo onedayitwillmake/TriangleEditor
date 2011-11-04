@@ -1,5 +1,6 @@
 package triangleeditor.physics;
 
+import processing.core.*;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
@@ -9,16 +10,19 @@ public class FallingObject implements ILevelObject {
 	private Body	_body;
 	private float	_radius;
 	private int		_type;		// Can be rectangle or circle
+	private int _color;
 	
 	public static int RECTANGLE = 0;
 	public static int CIRCLE = 1;
 	
 	private PApplet app;
-	public FallingObject( Body aBody, float aRadius, int type, PApplet appRef ) {
+	public FallingObject( Body aBody, float aRadius, int type, int i, PApplet appRef ) {
 		app = appRef;
 		_type = type;
 		_body = aBody;
 		_radius = aRadius;
+		
+		_color = i;
 	}
 	
 	/**
@@ -30,6 +34,7 @@ public class FallingObject implements ILevelObject {
 		
 		// Draw circle or square
 		if(_type == FallingObject.CIRCLE) {
+			app.fill( _color );
 			app.ellipseMode( PApplet.CENTER );
 			app.ellipse( pos.x, pos.y, _radius*2, _radius*2 );
 		} else if( _type == FallingObject.RECTANGLE ) {

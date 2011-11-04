@@ -402,7 +402,7 @@ public class PAppletWindow extends PApplet implements WindowListener, ComponentL
 		_myMode = NORMAL;
 	}
 
-	protected void dispose() {
+	public void dispose() {
 		controlWindow._myApplet.stop();
 		stop();
 		removeAll();

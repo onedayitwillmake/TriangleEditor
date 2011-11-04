@@ -6,6 +6,9 @@ package triangleeditor;
 
 import javax.vecmath.Color3b;
 
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+
 import processing.core.PApplet;
 import processing.core.PVector;
 import triangleeditor.physics.PhysicsController;
@@ -102,5 +105,18 @@ public class GridSquare {
 		if(isInTriangleA) return _triangleA;
 		else if(isInTriangleB) return _triangleB;
 		else return null;
+	}
+	
+	public JSONObject toJson() {
+		JSONObject json = new JSONObject();
+		json.put("xpos", _position.x);
+		json.put("ypos", _position.y);
+		json.put("row", _gridPosition.x);
+		json.put("column", _gridPosition.y );
+		json.put("size", _size);;
+		json.put("triangleA", _triangleA.get_isActive() );
+		json.put("triangleB",  _triangleB.get_isActive() );;
+		
+		return json;
 	}
 }
